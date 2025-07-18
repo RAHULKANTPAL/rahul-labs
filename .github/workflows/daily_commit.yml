@@ -1,0 +1,22 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # Every day at 4:00 AM UTC
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create/update activity file
+        run: |
+          echo "✅ Daily activity: $(date)" >> activity.log
+          git config --global user.name "RahulBot"
+          git config --global user.email "Rahulkantpal.cse@gmail.com"
+          git add activity.log
+          git commit -m "⚡ Daily activity update"
+          git push
